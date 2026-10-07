@@ -1,0 +1,73 @@
+SYNTHETIC DATASET — OIL PLATFORM DIESEL GENERATOR OPTIMIZATION
+
+Purpose
+-------
+This is a synthetic 20,000-row dataset designed for the project:
+"Improving Energy Efficiency of Oil Platforms Through Optimal Loading of Diesel
+Generators Using Machine Learning and Search Algorithms."
+
+Important
+---------
+The dataset is synthetic and is NOT the original Scottish offshore-platform dataset.
+It is intended for academic demonstration, model development, testing, and a live
+dashboard/demo where no public raw dataset is available.
+
+Granularity
+-----------
+One row = one generator observation for one synthetic operating day.
+20,000 rows = 5,000 synthetic operating scenarios × 4 generators (G1–G4). The scenario dates are distributed across an 18-month synthetic demonstration period; multiple scenarios can occur on the same calendar day.
+
+Recommended ML target
+---------------------
+daily_total_diesel_litres
+
+Recommended ML inputs
+---------------------
+generator_load_pct / generator_load_kw, generator capacity, generator age,
+running status, operating hours, platform demand, ambient temperature, humidity,
+sea state, process load, coolant temperature, maintenance indicator, and starts.
+
+Important leakage warning
+-------------------------
+For a predictive model, do NOT use fuel_consumption_litres, daily_total_diesel_litres,
+or litres_per_kwh as input features when predicting daily_total_diesel_litres.
+Those are target/KPI variables.
+
+Recommended project workflow
+----------------------------
+1. EDA and data cleaning.
+2. Aggregate generator rows by scenario_id/date when needed.
+3. Train regression models to predict daily diesel consumption.
+4. Compare Linear Regression, Random Forest, Extra Trees, XGBoost/Gradient Boosting,
+   and an ANN/MLP.
+5. Evaluate with MAE, RMSE and R².
+6. Build an optimization layer that searches feasible combinations of generator
+   load percentages while satisfying total platform power demand.
+7. Select the feasible combination with minimum predicted diesel consumption.
+8. Compare optimized consumption against the original/worst-case scenarios.
+9. Demonstrate estimated litres/day and percentage fuel saving.
+
+Optimization constraints to demonstrate
+----------------------------------------
+- Total generator power >= required platform demand.
+- Each online generator should operate within a practical load band
+  (for example 40%–85% during optimization).
+- Offline generators have load = 0.
+- Generator capacity limits must not be exceeded.
+- Number of online generators can be restricted to 2–4 depending on demand.
+
+Suggested demo
+--------------
+User enters/chooses current platform demand (kW) and operating conditions.
+The ML model predicts fuel consumption for candidate generator-load combinations.
+A grid search/random search/genetic algorithm evaluates feasible combinations.
+The dashboard displays:
+- Current loading
+- Recommended loading for G1–G4
+- Predicted diesel consumption
+- Estimated litres/day saved
+- Estimated percentage saving
+
+Do not claim the synthetic results reproduce the published study's 27% saving.
+That figure belongs to the study description; this dataset should be evaluated on
+its own generated data.
